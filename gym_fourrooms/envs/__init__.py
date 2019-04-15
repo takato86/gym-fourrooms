@@ -1,0 +1,1 @@
+from gym_fourrooms.envs.fourrooms import Fourrooms

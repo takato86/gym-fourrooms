@@ -1,9 +1,11 @@
 import numpy as np
 
+import gym
 from gym import core, spaces
 from gym.envs.registration import register
 
-class Fourrooms(core.Env):
+class Fourrooms(gym.Env):
+    metadata = {'render.modes': ['human']}
     def __init__(self):
         layout = """\
 wwwwwwwwwwwwwwwwwwwwwww
@@ -91,9 +93,5 @@ wwwwwwwwwwwwwwwwwwwwwww
         done = state == self.goal
         return state, float(done), done, None
 
-register(
-    id='Fourrooms-v0',
-    entry_point='fourrooms:Fourrooms',
-    timestep_limit=20000,
-    reward_threshold=1,
-)
+    def render(self, mode='Human', close=False):
+        pass
