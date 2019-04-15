@@ -37,7 +37,7 @@ wwwwwwwwwwwwwwwwwwwwwww
         self.action_space = spaces.Discrete(4)
         self.observation_space = spaces.Discrete(np.sum(self.occupancy == 0))
 
-        self.directions = [np.array((-1,0)), np.array((1,0)), np.array((0,-1)), np.array((0,1))]
+        self.directions = [np.array((1,0)), np.array((0,1)), np.array((-1,0)), np.array((0,-1))]
         self.rng = np.random.RandomState(1234)
 
         self.tostate = {}
