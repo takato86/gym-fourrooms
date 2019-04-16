@@ -1,8 +1,10 @@
 import numpy as np
 
+import pyglet
 import gym
 from gym import core, spaces
 from gym.envs.registration import register
+from gym.envs.classic_control import rendering
 
 class Fourrooms(gym.Env):
     metadata = {'render.modes': ['human']}
@@ -54,6 +56,8 @@ wwwwwwwwwwwwwwwwwwwwwww
         self.goal = self.tostate[(5, 21)]
         self.init_states = list(range(self.observation_space.n))
         self.init_states.remove(self.goal)
+        self.viewer = None
+        self.currentcell_obj = None
 
     def empty_around(self, cell):
         avail = []
@@ -93,5 +97,56 @@ wwwwwwwwwwwwwwwwwwwwwww
         done = state == self.goal
         return state, float(done), done, None
 
+    def draw_square(self, start_x, start_y, length_x, length_y, color):
+        color_dict = {
+            'white':[1,1,1],
+            'black':[0,0,0],
+            'red':[1,0,0],
+            'blue':[0,0,1],
+            'green':[0,1,0]
+        }
+        cell = rendering.make_polygon([(start_x, start_y), (start_x+length_x, start_y), (start_x + length_x, start_y + length_y), (start_x, start_y+length_y)])
+        if color_dict.get(color) != None:
+            cell.set_color(color_dict[color][0], color_dict[color][1], color_dict[color][2])
+            self.viewer.add_geom(cell)
+        return cell
+
     def render(self, mode='Human', close=False):
-        pass
+        if close:
+            if self.viewer is not None:
+                self.viewer.close()
+                self.viewer = None
+            return
+        
+        length_x = 30
+        length_y = 30
+        screen_height =  length_x * self.occupancy.shape[0]
+        screen_width = length_y * self.occupancy.shape[1]
+        position_x = 0
+        position_y = 0
+
+        current_position_x = self.currentcell[1] * length_x 
+        current_position_y = self.currentcell[0] * length_y
+
+        if self.viewer is None:
+            goal_state = self.to_cell(self.goal)
+            self.viewer = rendering.Viewer(screen_width, screen_height)
+            for i in range(self.occupancy.shape[0]):
+                for j in range(self.occupancy.shape[1]):
+                    if self.occupancy[i][j] == 1:
+                        color = 'black'
+                    elif goal_state[0] == i and goal_state[1] == j:
+                        color = 'red'
+                    elif self.currentcell[0] == i and self.currentcell[1] == j:
+                        color = 'blue'
+                        self.currentcell_obj = self.draw_square(position_x, position_y, length_x, length_y, color)
+                    else:
+                        position_x += length_x
+                        continue
+                    self.draw_square(position_x, position_y, length_x, length_y, color)
+                    position_x += length_x
+                position_x = 0
+                position_y += length_y
+        else:
+            self.currentcell_obj.v = [(current_position_x, current_position_y), (current_position_x+length_x, current_position_y), (current_position_x + length_x, current_position_y + length_y), (current_position_x, current_position_y+length_y)]
+        return self.viewer.render(return_rgb_array = mode=='rgb_array')
