@@ -9,30 +9,8 @@ from gym.envs.classic_control import rendering
 class Fourrooms(gym.Env):
     metadata = {'render.modes': ['human']}
     def __init__(self):
-        layout = """\
-wwwwwwwwwwwwwwwwwwwwwww
-w     w     w         w
-w     w     w         w
-w                     w
-w     w     w         w
-w     w     w         w
-wwwwwwwwwwwwwwwwwwwwwww
-"""
-#         layout = """\
-# wwwwwwwwwwwww
-# w     w     w
-# w     w     w
-# w           w
-# w     w     w
-# w     w     w
-# ww wwww     w
-# w     www www
-# w     w     w
-# w     w     w
-# w           w
-# w     w     w
-# wwwwwwwwwwwww
-# """
+
+        layout = self.get_layout()
         self.occupancy = np.array([list(map(lambda c: 1 if c=='w' else 0, line)) for line in layout.splitlines()])
 
         # From any state the agent can perform one of four actions, up, down, left or right
@@ -52,12 +30,30 @@ wwwwwwwwwwwwwwwwwwwwwww
                     self.tostate[(i,j)] = statenum
                     statenum += 1
         self.tocell = {v:k for k,v in self.tostate.items()}
-        #self.goal = 62
-        self.goal = self.tostate[(5, 21)]
+        self.goal = 62
+        # self.goal = self.tostate[(5, 21)]
         self.init_states = list(range(self.observation_space.n))
         self.init_states.remove(self.goal)
         self.viewer = None
         self.currentcell_obj = None
+    
+    def get_layout(self):
+        layout = """\
+wwwwwwwwwwwww
+w     w     w
+w     w     w
+w           w
+w     w     w
+w     w     w
+ww wwww     w
+w     www www
+w     w     w
+w     w     w
+w           w
+w     w     w
+wwwwwwwwwwwww
+"""
+        return layout
 
     def empty_around(self, cell):
         avail = []
@@ -117,7 +113,7 @@ wwwwwwwwwwwwwwwwwwwwwww
                 self.viewer.close()
                 self.viewer = None
             return
-        
+
         length_x = 30
         length_y = 30
         screen_height =  length_x * self.occupancy.shape[0]
@@ -128,25 +124,26 @@ wwwwwwwwwwwwwwwwwwwwwww
         current_position_x = self.currentcell[1] * length_x 
         current_position_y = self.currentcell[0] * length_y
 
+        
+        goal_state = self.to_cell(self.goal)
         if self.viewer is None:
-            goal_state = self.to_cell(self.goal)
             self.viewer = rendering.Viewer(screen_width, screen_height)
-            for i in range(self.occupancy.shape[0]):
-                for j in range(self.occupancy.shape[1]):
-                    if self.occupancy[i][j] == 1:
-                        color = 'black'
-                    elif goal_state[0] == i and goal_state[1] == j:
-                        color = 'red'
-                    elif self.currentcell[0] == i and self.currentcell[1] == j:
-                        color = 'blue'
-                        self.currentcell_obj = self.draw_square(position_x, position_y, length_x, length_y, color)
-                    else:
-                        position_x += length_x
-                        continue
-                    self.draw_square(position_x, position_y, length_x, length_y, color)
+        self.viewer.geoms = []
+        for i in range(self.occupancy.shape[0]):
+            for j in range(self.occupancy.shape[1]):
+                if self.occupancy[i][j] == 1:
+                    color = 'black'
+                elif goal_state[0] == i and goal_state[1] == j:
+                    color = 'red'
+                elif self.currentcell[0] == i and self.currentcell[1] == j:
+                    color = 'blue'
+                    self.currentcell_obj = self.draw_square(position_x, position_y, length_x, length_y, color)
+                else:
                     position_x += length_x
-                position_x = 0
-                position_y += length_y
-        else:
-            self.currentcell_obj.v = [(current_position_x, current_position_y), (current_position_x+length_x, current_position_y), (current_position_x + length_x, current_position_y + length_y), (current_position_x, current_position_y+length_y)]
+                    continue
+                
+                self.draw_square(position_x, position_y, length_x, length_y, color)
+                position_x += length_x
+            position_x = 0
+            position_y += length_y
         return self.viewer.render(return_rgb_array = mode=='rgb_array')
