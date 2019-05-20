@@ -6,17 +6,10 @@ cd gym-fourrooms
 pip install -e .
 ```
 
-After install, you can check the behaivor with the following code.
+After install, you can check the behaivor with the following command on terminal.
 
 ```
-import gym
-import gym_fourrooms
-
-env = gym.make('Fourrooms-v0')
-env.reset()
-env.render()
-env.step(0)
-env.render()
+python sample.py
 ```
 
 ## Env List
