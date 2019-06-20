@@ -5,9 +5,10 @@ import gym
 from gym import core, spaces
 from gym.envs.registration import register
 from gym.envs.classic_control import rendering
+from matplotlib import cm
 
 class Fourrooms(gym.Env):
-    metadata = {'render.modes': ['human']}
+    metadata = {'render.modes': ['human', 'rgb_array']}
     def __init__(self):
 
         layout = self.get_layout()
@@ -36,7 +37,12 @@ class Fourrooms(gym.Env):
         self.init_states.remove(self.goal)
         self.viewer = None
         self.currentcell_obj = None
+        self.n_steps = 0
+        self.curr_option = None
     
+    def set_option(self, option):
+        self.curr_option = option
+
     def get_layout(self):
         layout = """\
 wwwwwwwwwwwww
@@ -89,9 +95,11 @@ wwwwwwwwwwwww
                 self.currentcell = empty_cells[self.rng.randint(len(empty_cells))]
             else:
                 self.currentcell = nextcell
-
+        self.n_steps += 1
         state = self.tostate[self.currentcell]
-        done = state == self.goal
+        done = self.n_steps >= 1000 or state == self.goal
+        if done:
+            self.n_steps = 0
         return state, float(done), done, None
 
     def draw_square(self, start_x, start_y, length_x, length_y, color):
@@ -106,9 +114,13 @@ wwwwwwwwwwwww
         if color_dict.get(color) != None:
             cell.set_color(color_dict[color][0], color_dict[color][1], color_dict[color][2])
             self.viewer.add_geom(cell)
+        elif type(color) == int:
+            cmap = cm.Paired(color)
+            cell.set_color(cmap[0], cmap[1], cmap[2])
+            self.viewer.add_geom(cell)
         return cell
 
-    def render(self, mode='Human', close=False, option=None):
+    def render(self, mode='Human', close=False):
         if close:
             if self.viewer is not None:
                 self.viewer.close()
@@ -136,7 +148,10 @@ wwwwwwwwwwwww
                 elif goal_state[0] == i and goal_state[1] == j:
                     color = 'red'
                 elif self.currentcell[0] == i and self.currentcell[1] == j:
-                    color = 'blue'
+                    if self.curr_option != None:
+                        color = self.curr_option
+                    else:
+                        color = 'blue'
                     self.currentcell_obj = self.draw_square(position_x, position_y, length_x, length_y, color)
                 else:
                     position_x += length_x
