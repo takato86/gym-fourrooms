@@ -84,10 +84,11 @@ wwwwwwwwwwwww
         """
         nextcell = tuple(self.currentcell + self.directions[action])
         if not self.occupancy[nextcell]:
-            self.currentcell = nextcell
             if self.rng.uniform() < 1/3.:
                 empty_cells = self.empty_around(self.currentcell)
                 self.currentcell = empty_cells[self.rng.randint(len(empty_cells))]
+            else:
+                self.currentcell = nextcell
 
         state = self.tostate[self.currentcell]
         done = state == self.goal
@@ -107,7 +108,7 @@ wwwwwwwwwwwww
             self.viewer.add_geom(cell)
         return cell
 
-    def render(self, mode='Human', close=False):
+    def render(self, mode='Human', close=False, option=None):
         if close:
             if self.viewer is not None:
                 self.viewer.close()
@@ -119,12 +120,11 @@ wwwwwwwwwwwww
         screen_height =  length_x * self.occupancy.shape[0]
         screen_width = length_y * self.occupancy.shape[1]
         position_x = 0
-        position_y = 0
+        position_y = screen_height - length_y
 
         current_position_x = self.currentcell[1] * length_x 
         current_position_y = self.currentcell[0] * length_y
 
-        
         goal_state = self.to_cell(self.goal)
         if self.viewer is None:
             self.viewer = rendering.Viewer(screen_width, screen_height)
@@ -145,5 +145,5 @@ wwwwwwwwwwwww
                 self.draw_square(position_x, position_y, length_x, length_y, color)
                 position_x += length_x
             position_x = 0
-            position_y += length_y
+            position_y -= length_y
         return self.viewer.render(return_rgb_array = mode=='rgb_array')
