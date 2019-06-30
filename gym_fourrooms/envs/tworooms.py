@@ -11,16 +11,16 @@ from gym_fourrooms.envs.fourrooms import Fourrooms
 class Threerooms(Fourrooms):
     def __init__(self):
         super(Threerooms, self).__init__()
-        self.goal = self.tostate[(4,20)]
-        
+        self.goal = self.tostate[(1,17)]
+
     def get_layout(self):
         layout = """\
-wwwwwwwwwwwwwwwwwwwwwww
-w     w     w         w
-w     w     w         w
-w                     w
-w     w     w         w
-w     w     w         w
-wwwwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwww
+w      w         w
+w      w         w
+w                w
+w      w         w
+w      w         w
+wwwwwwwwwwwwwwwwww
 """
         return layout

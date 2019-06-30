@@ -4,6 +4,20 @@ from gym.envs.registration import register
 logger = logging.getLogger(__name__)
 
 register(
+    id='Onerooms-v0',
+    entry_point='gym_fourrooms.envs:Onerooms',
+    timestep_limit=20000,
+    reward_threshold=1,
+)
+
+register(
+    id='Tworooms-v0',
+    entry_point='gym_fourrooms.envs:Tworooms',
+    timestep_limit=20000,
+    reward_threshold=1,
+)
+
+register(
     id='Fourrooms-v0',
     entry_point='gym_fourrooms.envs:Fourrooms',
     timestep_limit=20000,
@@ -23,3 +37,4 @@ register(
     timestep_limit=20000,
     reward_threshold=1,
 )
+

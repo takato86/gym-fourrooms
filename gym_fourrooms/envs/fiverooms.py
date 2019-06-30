@@ -11,6 +11,7 @@ from gym_fourrooms.envs.fourrooms import Fourrooms
 class Fiverooms(Fourrooms):
     def __init__(self):
         super(Fiverooms, self).__init__()
+        self.goal = self.tostate[(11, 18)]
         
     def get_layout(self):
         layout = """\
