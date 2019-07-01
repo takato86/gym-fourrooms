@@ -5,13 +5,14 @@ import gym
 from gym import core, spaces
 from gym.envs.registration import register
 from gym.envs.classic_control import rendering
-from gym_fourrooms.envs.fourrooms import Fourrooms
+from gym_fourrooms.envs.fourrooms import Rooms
 
 
-class Threerooms(Fourrooms):
+class Threerooms(Rooms):
     def __init__(self):
         super(Threerooms, self).__init__()
         self.goal = self.tostate[(4,20)]
+        self.init_states.remove(self.goal)
         
     def get_layout(self):
         layout = """\
