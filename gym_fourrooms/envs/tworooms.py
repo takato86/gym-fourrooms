@@ -8,20 +8,20 @@ from gym.envs.classic_control import rendering
 from gym_fourrooms.envs.fourrooms import Rooms
 
 
-class Threerooms(Rooms):
+class Tworooms(Rooms):
     def __init__(self):
-        super(Threerooms, self).__init__()
-        self.goal = self.tostate[(4,20)]
+        super(Tworooms, self).__init__()
+        self.goal = self.tostate[(1,14)]
         self.init_states.remove(self.goal)
-        
+
     def get_layout(self):
         layout = """\
-wwwwwwwwwwwwwwwwwwwwwww
-w     w     w         w
-w     w     w         w
-w                     w
-w     w     w         w
-w     w     w         w
-wwwwwwwwwwwwwwwwwwwwwww
+wwwwwwwwwwwwwwwwww
+w      w         w
+w      w         w
+w                w
+w      w         w
+w      w         w
+wwwwwwwwwwwwwwwwww
 """
         return layout
