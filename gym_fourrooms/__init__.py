@@ -11,6 +11,20 @@ register(
 )
 
 register(
+    id='ConstOneroom-v0',
+    entry_point='gym_fourrooms.envs:ConstOneroom',
+    timestep_limit=20000,
+    reward_threshold=1,
+)
+
+register(
+    id='GoalsOneroom-v0',
+    entry_point='gym_fourrooms.envs:GoalsOneroom',
+    timestep_limit=20000,
+    reward_threshold=1,
+)
+
+register(
     id='Tworooms-v0',
     entry_point='gym_fourrooms.envs:Tworooms',
     timestep_limit=20000,
@@ -26,7 +40,7 @@ register(
 
 register(
     id='ConstFourrooms-v0',
-    entry_point='gym_fourrooms.envs:Fourrooms',
+    entry_point='gym_fourrooms.envs:ConstFourrooms',
     timestep_limit=20000,
     reward_threshold=1,
 )

@@ -176,3 +176,67 @@ class ConstRooms(Rooms):
         if done:
             self.n_steps = 0
         return state, float(done), done, None
+
+class GoalsRooms(Rooms):
+    def __init__(self):
+        super(ConstRooms, self).__init__()
+        del(self.goal)
+        self.goals = []
+    
+    def step(self, action):
+        nextcell = tuple(self.currentcell + self.directions[action])
+        if not self.occupancy[nextcell]:
+            if self.rng.uniform() < 1/3.:
+                empty_cells = self.empty_around(self.currentcell)
+                self.currentcell = empty_cells[self.rng.randint(len(empty_cells))]
+            else:
+                self.currentcell = nextcell
+        self.n_steps += 1
+        state = self.tostate[self.currentcell]
+        done = self.n_steps >= 1000 or state in self.goals
+        if done:
+            self.n_steps = 0
+        return state, float(done), done, None
+    
+    def render(self, mode='Human', close=False):
+        if close:
+            if self.viewer is not None:
+                self.viewer.close()
+                self.viewer = None
+            return
+
+        length_x = 30
+        length_y = 30
+        screen_height =  length_x * self.occupancy.shape[0]
+        screen_width = length_y * self.occupancy.shape[1]
+        position_x = 0
+        position_y = screen_height - length_y
+
+        current_position_x = self.currentcell[1] * length_x 
+        current_position_y = self.currentcell[0] * length_y
+
+        goal_states = [self.to_cell(goal) for goal in self.goals]
+        if self.viewer is None:
+            self.viewer = rendering.Viewer(screen_width, screen_height)
+        self.viewer.geoms = []
+        for i in range(self.occupancy.shape[0]):
+            for j in range(self.occupancy.shape[1]):
+                if self.occupancy[i][j] == 1:
+                    color = 'black'
+                elif (i,j) in goal_states:
+                    color = 'red'
+                elif self.currentcell[0] == i and self.currentcell[1] == j:
+                    if self.curr_option != None:
+                        color = self.curr_option
+                    else:
+                        color = 'blue'
+                    self.currentcell_obj = self.draw_square(position_x, position_y, length_x, length_y, color)
+                else:
+                    position_x += length_x
+                    continue
+                
+                self.draw_square(position_x, position_y, length_x, length_y, color)
+                position_x += length_x
+            position_x = 0
+            position_y -= length_y
+        return self.viewer.render(return_rgb_array = mode=='rgb_array')
