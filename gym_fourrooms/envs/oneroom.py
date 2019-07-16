@@ -49,7 +49,7 @@ class GoalsOneroom(GoalsRooms):
         super(GoalsOneroom, self).__init__()
         goals = [(5, 10), (1, 10)]
         self.goals = [self.tostate[goal] for goal in goals]
-        def get_layout(self):
+    def get_layout(self):
         layout = """\
 wwwwwwwwwwwww
 w           w

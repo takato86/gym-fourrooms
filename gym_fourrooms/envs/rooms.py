@@ -179,9 +179,7 @@ class ConstRooms(Rooms):
 
 class GoalsRooms(Rooms):
     def __init__(self):
-        super(ConstRooms, self).__init__()
-        del(self.goal)
-        self.goals = []
+        super(GoalsRooms, self).__init__()
     
     def step(self, action):
         nextcell = tuple(self.currentcell + self.directions[action])
