@@ -159,3 +159,20 @@ wwwwwwwwwwwww
             position_x = 0
             position_y -= length_y
         return self.viewer.render(return_rgb_array = mode=='rgb_array')
+
+
+class ConstRooms(Rooms):
+    def __init__(self):
+        super(ConstRooms, self).__init__()
+    
+    def step(self, action):
+        nextcell = tuple(self.currentcell + self.directions[action])
+        if not self.occupancy[nextcell]:
+
+                self.currentcell = nextcell
+        self.n_steps += 1
+        state = self.tostate[self.currentcell]
+        done = self.n_steps >= 1000 or state == self.goal
+        if done:
+            self.n_steps = 0
+        return state, float(done), done, None
