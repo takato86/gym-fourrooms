@@ -36,6 +36,7 @@ class Rooms(gym.Env):
         self.currentcell_obj = None
         self.n_steps = 0
         self.curr_option = None
+        self.goal = None
     
     def set_option(self, option):
         self.curr_option = option
@@ -94,7 +95,7 @@ wwwwwwwwwwwww
                 self.currentcell = nextcell
         self.n_steps += 1
         state = self.tostate[self.currentcell]
-        done = self.n_steps >= 1000 or state == self.goal
+        done = state == self.goal
         if done:
             self.n_steps = 0
         return state, float(done), done, None
@@ -153,7 +154,6 @@ wwwwwwwwwwwww
                 else:
                     position_x += length_x
                     continue
-                
                 self.draw_square(position_x, position_y, length_x, length_y, color)
                 position_x += length_x
             position_x = 0
