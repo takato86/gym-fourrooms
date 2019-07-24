@@ -32,6 +32,15 @@ wwwwwwwwwwwww
 """
         return layout
 
+class FourroomsV1(Fourrooms):
+    def __init__(self):
+        super(FourroomsV1, self).__init__()
+    def step(self, act):
+        next_state, reward, done, info = super(FourroomsV1, self).step(act)
+        if not done:
+            reward -= 1
+        return next_state, reward, done, info
+
 class ConstFourrooms(ConstRooms):
     def __init__(self):
         super(ConstFourrooms, self).__init__()
@@ -79,5 +88,6 @@ class SubGoalFourrooms(Fourrooms):
         next_state, reward, done, info = super(SubGoalFourrooms, self).step(act)
         if self.subgoals.get(next_state) is not None:
             reward += self.subgoals[next_state]
+        reward -= 1
         return next_state, reward, done, info
 

@@ -25,8 +25,33 @@ class TestSubGoalRooms(unittest.TestCase):
             obs, rwd, done, _ = env.step(act)
             if obs in test_subgoals.keys():
                 logger.info(obs)
-                self.assertEquals(0.5, rwd)
+                self.assertEqual(0.5 - 1, rwd)
                 return
             if done:
                 logger.info("Reset env")
+                env.reset()
+
+class TestRoomsV1(unittest.TestCase):
+    def define_mock(self):
+        pass
+    
+    def test_step(self):
+        env = gym.make("Fourrooms-v1")
+        env.reset()
+        done = False
+        is_flag =[False, False]
+        while(1):
+            act = np.random.choice([0,1,2,3])
+            obs, rwd, done, _ = env.step(act)
+            if obs == 62:
+                is_flag[0] = True
+                self.assertEqual(1, rwd)
+            else:
+                is_flag[1] = True
+                logger.info(obs)
+                self.assertEqual(-1, rwd)
+            if done:
+                logger.info("Reset env")
+                if all(is_flag):
+                    return
                 env.reset()
