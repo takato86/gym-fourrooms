@@ -11,6 +11,13 @@ register(
 )
 
 register(
+    id = 'SubGoalFourrooms-v0',
+    entry_point = 'gym_fourrooms.envs:SubGoalFourrooms',
+    timestep_limit = 20000,
+    reward_threshold = 1
+)
+
+register(
     id='ConstOneroom-v0',
     entry_point='gym_fourrooms.envs:ConstOneroom',
     timestep_limit=20000,

@@ -95,10 +95,17 @@ wwwwwwwwwwwww
                 self.currentcell = nextcell
         self.n_steps += 1
         state = self.tostate[self.currentcell]
-        done = state == self.goal
+        done = False
+        reward = 0.0
+        if state == self.goal:
+            done = True
+            reward = 1.0
+        if self.n_steps >= 1000:
+            done = True
+            reward = 0.0
         if done:
             self.n_steps = 0
-        return state, float(done), done, None
+        return state, reward, done, None
 
     def draw_square(self, start_x, start_y, length_x, length_y, color):
         color_dict = {
