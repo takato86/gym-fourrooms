@@ -6,6 +6,8 @@ from gym import core, spaces
 from gym.envs.registration import register
 from gym.envs.classic_control import rendering
 from matplotlib import cm
+from gym_fourrooms.envs.shaping_reward import ShapingRewardBase,\
+                                              DefaultReward
 
 class Rooms(gym.Env):
     metadata = {'render.modes': ['human', 'rgb_array']}
@@ -167,6 +169,40 @@ wwwwwwwwwwwww
             position_y -= length_y
         return self.viewer.render(return_rgb_array = mode=='rgb_array')
 
+class ShapingRooms(Rooms):
+    def __init__(self):
+        super(ShapingRooms, self).__init__()
+        self.shaping_reward = DefaultReward(value=0)
+        
+
+    def set_shaping_reward(self, shaping_reward):
+        if type(shaping_reward) != ShapingRewardBase:
+            raise Exception("The type of argument is wrong. Only allow ShapingRewardBase")
+        self.shaping_reward = shaping_reward
+    
+    def step(self, action):
+        prev_state = self.tostate[self.currentcell]
+        nextcell = tuple(self.currentcell + self.directions[action])
+        if not self.occupancy[nextcell]:
+            if self.rng.uniform() < 1/3.:
+                empty_cells = self.empty_around(self.currentcell)
+                self.currentcell = empty_cells[self.rng.randint(len(empty_cells))]
+            else:
+                self.currentcell = nextcell
+        self.n_steps += 1
+        state = self.tostate[self.currentcell]
+        done = False
+        reward = self.shaping_reward.perform(prev_state, state)
+        if state == self.goal:
+            done = True
+            reward = 1.0
+        if self.n_steps >= 1000:
+            done = True
+            reward = 0.0
+        if done:
+            self.n_steps = 0
+        return state, reward, done, None
+
 
 class ConstRooms(Rooms):
     def __init__(self):
@@ -179,8 +215,15 @@ class ConstRooms(Rooms):
                 self.currentcell = nextcell
         self.n_steps += 1
         state = self.tostate[self.currentcell]
-        done = self.n_steps >= 1000 or state == self.goal
-        if done:
+        done = False
+        reward = 0.0
+        if state == self.goal:
+            done = True
+            reward = 1.0
+        if self.n_steps >= 1000:
+            done = True
+            reward = 0.0
+        if done and self.n_steps >= 1000:
             self.n_steps = 0
         return state, float(done), done, None
 
@@ -198,7 +241,14 @@ class GoalsRooms(Rooms):
                 self.currentcell = nextcell
         self.n_steps += 1
         state = self.tostate[self.currentcell]
-        done = self.n_steps >= 1000 or state in self.goals
+        done = False
+        reward = 0.0
+        if state == self.goal:
+            done = True
+            reward = 1.0
+        if self.n_steps >= 1000:
+            done = True
+            reward = 0.0
         if done:
             self.n_steps = 0
         return state, float(done), done, None

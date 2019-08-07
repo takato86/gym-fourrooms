@@ -60,6 +60,13 @@ register(
 )
 
 register(
+    id='ShapingFourrooms-v0',
+    entry_point='gym_fourrooms.envs:ShapingFourrooms',
+    timestep_limit=20000,
+    reward_threshold=1,
+)
+
+register(
     id='Threerooms-v0',
     entry_point='gym_fourrooms.envs:Threerooms',
     timestep_limit=20000,
