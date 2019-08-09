@@ -176,8 +176,6 @@ class ShapingRooms(Rooms):
         
 
     def set_shaping_reward(self, shaping_reward):
-        if type(shaping_reward) != ShapingRewardBase:
-            raise Exception("The type of argument is wrong. Only allow ShapingRewardBase")
         self.shaping_reward = shaping_reward
     
     def step(self, action):
