@@ -66,6 +66,7 @@ wwwwwwwwwwwww
 """
         return layout
 
+# TODO v0とv1のどちらかをベースに
 class SubGoalFourrooms(Fourrooms):
     def __init__(self):
         """Fourrooms env with rewards as sugoals
@@ -91,3 +92,25 @@ class SubGoalFourrooms(Fourrooms):
         reward -= 1
         return next_state, reward, done, info
 
+class LargeFourrooms(SubGoalFourrooms):
+    def __init__(self):
+        super(LargeFourrooms, self).__init__()
+        self.goal = self.tostate[(7,18)]
+    
+    def get_layout(self):
+        layout = """\
+wwwwwwwwwwwwwwwwwwwwwwwww
+w          w            w
+w          w            w
+w                       w
+w          w            w
+w          w            w
+ww wwwwwwwww            w
+w          wwwwwww wwwwww
+w          w            w
+w          w            w
+w                       w
+w          w            w
+wwwwwwwwwwwwwwwwwwwwwwwww
+"""
+        return layout

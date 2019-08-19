@@ -53,6 +53,13 @@ register(
 )
 
 register(
+    id='LargeFourrooms-v1',
+    entry_point='gym_fourrooms.envs:LargeFourrooms',
+    timestep_limit=20000,
+    reward_threshold=1,
+)
+
+register(
     id='ConstFourrooms-v0',
     entry_point='gym_fourrooms.envs:ConstFourrooms',
     timestep_limit=20000,
