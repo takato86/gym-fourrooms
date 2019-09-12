@@ -6,7 +6,7 @@ from gym import core, spaces
 from gym.envs.registration import register
 from gym.envs.classic_control import rendering
 from gym_fourrooms.envs.rooms import Rooms, ConstRooms,\
-                                     ShapingRooms
+                                     ShapingRooms, FlexibleRooms
 
 
 class Fourrooms(Rooms):
@@ -34,6 +34,7 @@ wwwwwwwwwwwww
 """
         return layout
 
+
 class FourroomsV1(Fourrooms):
     def __init__(self):
         super(FourroomsV1, self).__init__()
@@ -42,6 +43,30 @@ class FourroomsV1(Fourrooms):
         if not done:
             reward -= 1
         return next_state, reward, done, info
+
+
+class FlexibleFourrooms(FlexibleRooms):
+    def __init__(self):
+        super(FlexibleFourrooms, self).__init__()
+        self.goal = 62
+
+    def get_layout(self):
+        layout = """\
+wwwwwwwwwwwww
+w     w     w
+w     w     w
+w           w
+w     w     w
+w     w     w
+ww wwww     w
+w     www www
+w     w     w
+w     w     w
+w           w
+w     w     w
+wwwwwwwwwwwww
+"""
+        return layout
 
 
 class ConstFourrooms(ConstRooms):

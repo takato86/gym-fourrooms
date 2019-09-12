@@ -169,12 +169,27 @@ wwwwwwwwwwwww
             position_y -= length_y
         return self.viewer.render(return_rgb_array = mode=='rgb_array')
 
+class FlexibleRooms(Rooms):
+    def __init__(self):
+        super(FlexibleRooms, self).__init__()
+    
+    def set_init_states(self, init_states):
+        """スタート状態の指定
+        
+        Arguments:
+            init_states {[list<tuple>]} -- スタート状態をタプルリストで指定する．
+        """
+        self.init_states = [self.tostate[init_state] for init_state in init_states ]
+
+    def set_goal(self, goal:tuple):
+        self.goal = self.tostate[goal]
+
+
 class ShapingRooms(Rooms):
     def __init__(self):
         super(ShapingRooms, self).__init__()
         self.shaping_reward = DefaultReward(value=0)
         
-
     def set_shaping_reward(self, shaping_reward):
         self.shaping_reward = shaping_reward
     
