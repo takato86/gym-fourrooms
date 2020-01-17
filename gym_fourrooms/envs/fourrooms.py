@@ -124,23 +124,57 @@ class SubGoalFourrooms(Fourrooms):
 class LargeFourrooms(SubGoalFourrooms):
     def __init__(self):
         super(LargeFourrooms, self).__init__()
-        self.goal = self.tostate[(7,18)]
+        self.goal = self.tostate[(16, 31)]
     
     def get_layout(self):
         layout = """\
-wwwwwwwwwwwwwwwwwwwwwwwww
-w          w            w
-w          w            w
-w                       w
-w          w            w
-w          w            w
-ww wwwwwwwww            w
-w          wwwwwww wwwwww
-w          w            w
-w          w            w
-w                       w
-w          w            w
-wwwwwwwwwwwwwwwwwwwwwwwww"""
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w             w                 w
+w             w                 w
+w                               w
+w             w                 w
+w             w                 w
+w             w                 w
+w             w                 w
+wwwww wwwwwwwww                 w
+w             wwwwwww wwwwwwwwwww
+w             w                 w
+w             w                 w
+w                               w
+w             w                 w
+w             w                 w
+w             w                 w
+w             w                 w
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+"""
+        return layout
+
+class ConstLargeFourrooms(ConstRooms):
+    def __init__(self):
+        super().__init__()
+        self.goal = 453
+    
+    def get_layout(self):
+        layout = """\
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+w             w                 w
+w             w                 w
+w                               w
+w             w                 w
+w             w                 w
+w             w                 w
+w             w                 w
+wwwww wwwwwwwww                 w
+w             wwwwwww wwwwwwwwwww
+w             w                 w
+w             w                 w
+w                               w
+w             w                 w
+w             w                 w
+w             w                 w
+w             w                 w
+wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
+"""
         return layout
 
 
