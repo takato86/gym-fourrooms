@@ -75,6 +75,7 @@ wwwwwwwwwwwww
     def reset(self):
         state = self.rng.choice(self.init_states)
         self.currentcell = self.tocell[state]
+        self.n_steps = 0
         return state
 
     def step(self, action):
@@ -105,8 +106,6 @@ wwwwwwwwwwwww
         if self.n_steps >= 1000:
             done = True
             reward = 0.0
-        if done:
-            self.n_steps = 0
         return state, reward, done, None
 
     def draw_square(self, start_x, start_y, length_x, length_y, color):
@@ -212,8 +211,6 @@ class ShapingRooms(Rooms):
         if self.n_steps >= 1000:
             done = True
             reward = 0.0
-        if done:
-            self.n_steps = 0
         return state, reward, done, None
 
 
@@ -224,8 +221,7 @@ class ConstRooms(Rooms):
     def step(self, action):
         nextcell = tuple(self.currentcell + self.directions[action])
         if not self.occupancy[nextcell]:
-
-                self.currentcell = nextcell
+            self.currentcell = nextcell
         self.n_steps += 1
         state = self.tostate[self.currentcell]
         done = False
@@ -236,9 +232,7 @@ class ConstRooms(Rooms):
         if self.n_steps >= 1000:
             done = True
             reward = 0.0
-        if done and self.n_steps >= 1000:
-            self.n_steps = 0
-        return state, float(done), done, None
+        return state, reward, done, None
 
 class GoalsRooms(Rooms):
     def __init__(self):

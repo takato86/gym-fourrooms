@@ -72,7 +72,7 @@ wwwwwwwwwwwww
 class ConstFourrooms(ConstRooms):
     def __init__(self):
         super(ConstFourrooms, self).__init__()
-        self.goal = 62
+        self.goal = 103 # 62
         # self.goal = self.tostate[(5, 21)]
         self.init_states.remove(self.goal)
 
