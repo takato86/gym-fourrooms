@@ -1,5 +1,5 @@
 import numpy as np
-
+import pandas as pd
 import pyglet
 import gym
 from gym import core, spaces
@@ -167,6 +167,13 @@ wwwwwwwwwwwww
             position_x = 0
             position_y -= length_y
         return self.viewer.render(return_rgb_array = mode=='rgb_array')
+
+    def to_csv(self, fpath):
+        to_state = np.full(self.occupancy.shape, -1)
+        for k, val in self.tostate.items():
+            to_state[k[0]][k[1]] = val
+        pd.DataFrame(to_state).to_csv(fpath)
+
 
 class FlexibleRooms(Rooms):
     def __init__(self):

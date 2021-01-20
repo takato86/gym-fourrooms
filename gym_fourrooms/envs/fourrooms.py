@@ -72,7 +72,7 @@ wwwwwwwwwwwww
 class ConstFourrooms(ConstRooms):
     def __init__(self):
         super(ConstFourrooms, self).__init__()
-        self.goal = 103 # 62
+        self.goal = self.tostate[(11, 11)]
         # self.goal = self.tostate[(5, 21)]
         # self.init_states.remove(self.goal)
         self.init_states = [0]
@@ -94,6 +94,53 @@ w     w     w
 wwwwwwwwwwwww
 """
         return layout
+
+
+class DiagonalFourrooms(ConstFourrooms):
+    def __init__(self):
+        super().__init__()
+
+    def get_layout(self):
+        layout = """\
+wwwwwwwwwwwww
+w      w   ww
+w         w w
+w    w   w  w
+w   w   w   w
+w  w   w    w
+w w   w   w w
+ww   w   w  w
+w   w   w   w
+w      w    w
+w w   w     w
+ww   w      w
+wwwwwwwwwwwww
+"""
+        return layout
+
+
+class DiagonalPartialFourrooms(ConstFourrooms):
+    def __init__(self):
+        super().__init__()
+
+    def get_layout(self):
+        layout = """\
+wwwwwwwwwwwww
+w      w    w
+w           w
+w    w      w
+w   w       w
+w  w w     ww
+w     w   w w
+ww     w    w
+w       w   w
+w      w    w
+w           w
+w    w      w
+wwwwwwwwwwwww
+"""
+        return layout
+
 
 # TODO v0とv1のどちらかをベースに
 class SubGoalFourrooms(Fourrooms):

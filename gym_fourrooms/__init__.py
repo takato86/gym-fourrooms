@@ -60,6 +60,20 @@ register(
 )
 
 register(
+    id='DiagonalFourrooms-v0',
+    entry_point='gym_fourrooms.envs:DiagonalFourrooms',
+    max_episode_steps=20000,
+    reward_threshold=1,
+)
+
+register(
+    id='DiagonalPartialFourrooms-v0',
+    entry_point='gym_fourrooms.envs:DiagonalPartialFourrooms',
+    max_episode_steps=20000,
+    reward_threshold=1,
+)
+
+register(
     id='LargeFourrooms-v1',
     entry_point='gym_fourrooms.envs:LargeFourrooms',
     max_episode_steps=20000,

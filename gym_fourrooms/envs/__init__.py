@@ -6,7 +6,9 @@ from gym_fourrooms.envs.fourrooms import Fourrooms,\
                                          LargeFourrooms,\
                                          ShapingFourrooms,\
                                          FlexibleFourrooms,\
-                                         ConstLargeFourrooms
+                                         ConstLargeFourrooms,\
+                                         DiagonalFourrooms,\
+                                         DiagonalPartialFourrooms
 from gym_fourrooms.envs.threerooms import Threerooms
 from gym_fourrooms.envs.tworooms import Tworooms
 from gym_fourrooms.envs.oneroom import Oneroom, ConstOneroom, GoalsOneroom
