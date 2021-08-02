@@ -11,10 +11,10 @@ register(
 )
 
 register(
-    id = 'SubGoalFourrooms-v0',
-    entry_point = 'gym_fourrooms.envs:SubGoalFourrooms',
-    max_episode_steps = 20000,
-    reward_threshold = 1
+    id='SubGoalFourrooms-v0',
+    entry_point='gym_fourrooms.envs:SubGoalFourrooms',
+    max_episode_steps=20000,
+    reward_threshold=1
 )
 
 register(
@@ -34,6 +34,13 @@ register(
 register(
     id='Tworooms-v0',
     entry_point='gym_fourrooms.envs:Tworooms',
+    max_episode_steps=20000,
+    reward_threshold=1,
+)
+
+register(
+    id='PenalizedTworooms-v0',
+    entry_point='gym_fourrooms.envs:PenalizedTworooms',
     max_episode_steps=20000,
     reward_threshold=1,
 )
@@ -114,4 +121,3 @@ register(
     max_episode_steps=20000,
     reward_threshold=1,
 )
-

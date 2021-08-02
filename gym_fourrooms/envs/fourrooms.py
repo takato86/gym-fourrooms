@@ -1,10 +1,3 @@
-import numpy as np
-
-import pyglet
-import gym
-from gym import core, spaces
-from gym.envs.registration import register
-from gym.envs.classic_control import rendering
 from gym_fourrooms.envs.rooms import Rooms, ConstRooms,\
                                      ShapingRooms, FlexibleRooms
 
@@ -38,6 +31,7 @@ wwwwwwwwwwwww
 class FourroomsV1(Fourrooms):
     def __init__(self):
         super(FourroomsV1, self).__init__()
+
     def step(self, act):
         next_state, reward, done, info = super(FourroomsV1, self).step(act)
         if not done:
@@ -146,7 +140,7 @@ wwwwwwwwwwwww
 class SubGoalFourrooms(Fourrooms):
     def __init__(self):
         """Fourrooms env with rewards as sugoals
-        
+
         Arguments:
             Fourrooms {[type]} -- [description]
             subgoals {[type]} -- {(x, y): value}
@@ -162,7 +156,8 @@ class SubGoalFourrooms(Fourrooms):
                 self.subgoals[self.tostate[k]] = v
 
     def step(self, act):
-        next_state, reward, done, info = super(SubGoalFourrooms, self).step(act)
+        next_state, reward, done, info \
+            = super(SubGoalFourrooms, self).step(act)
         if self.subgoals.get(next_state) is not None:
             reward += self.subgoals[next_state]
         reward -= 1
@@ -173,7 +168,7 @@ class LargeFourrooms(SubGoalFourrooms):
     def __init__(self):
         super(LargeFourrooms, self).__init__()
         self.goal = self.tostate[(16, 31)]
-    
+
     def get_layout(self):
         layout = """\
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
@@ -197,11 +192,12 @@ wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
 """
         return layout
 
+
 class ConstLargeFourrooms(ConstRooms):
     def __init__(self):
         super().__init__()
         self.goal = 453
-    
+
     def get_layout(self):
         layout = """\
 wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww
