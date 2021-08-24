@@ -42,5 +42,5 @@ wwwwwwwwwwwwwwwwwww
     def step(self, action):
         state, reward, done, info = super().step(action)
         if state in [25, 42, 57]:
-            reward -= 0.2
+            reward = -0.002
         return state, reward, done, info
