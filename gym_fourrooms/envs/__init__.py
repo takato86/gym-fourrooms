@@ -10,7 +10,8 @@ from gym_fourrooms.envs.fourrooms import Fourrooms,\
                                          DiagonalFourrooms,\
                                          DiagonalPartialFourrooms
 from gym_fourrooms.envs.threerooms import Threerooms
-from gym_fourrooms.envs.tworooms import Tworooms, PenalizedTworooms
+from gym_fourrooms.envs.tworooms import Tworooms, PenalizedTworooms, \
+                                        PenalizedTworoomsThrough
 from gym_fourrooms.envs.oneroom import Oneroom, ConstOneroom, GoalsOneroom
 
 __all__ = [
@@ -18,7 +19,7 @@ __all__ = [
     "SubGoalFourrooms", "LargeFourrooms", "ShapingFourrooms",
     "FlexibleFourrooms", "ConstLargeFourrooms", "DiagonalFourrooms",
     "DiagonalPartialFourrooms",
-    "Threerooms", "PenalizedTworooms",
-    "Tworooms",
+    "Threerooms",
+    "Tworooms", "PenalizedTworooms", "PenalizedTworoomsThrough",
     "Oneroom", "ConstOneroom", "GoalsOneroom"
 ]

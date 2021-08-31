@@ -45,6 +45,15 @@ register(
     reward_threshold=1,
 )
 
+
+register(
+    id='PenalizedTworoomsThrough-v0',
+    entry_point='gym_fourrooms.envs:PenalizedTworoomsThrough',
+    max_episode_steps=20000,
+    reward_threshold=1,
+)
+
+
 register(
     id='Fourrooms-v0',
     entry_point='gym_fourrooms.envs:Fourrooms',

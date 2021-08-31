@@ -25,6 +25,7 @@ class PenalizedTworooms(ConstRooms):
         super().__init__()
         self.goal = 14
         self.init_states = [0]
+        self.penalized_states = [25, 42, 57]
 
     def get_layout(self):
         layout = """\
@@ -41,6 +42,12 @@ wwwwwwwwwwwwwwwwwww
 
     def step(self, action):
         state, reward, done, info = super().step(action)
-        if state in [25, 42, 57]:
+        if state in self.penalized_states:
             reward = -0.002
         return state, reward, done, info
+
+
+class PenalizedTworoomsThrough(PenalizedTworooms):
+    def __init__(self):
+        super().__init__()
+        self.penalized_states = [25, 57]
