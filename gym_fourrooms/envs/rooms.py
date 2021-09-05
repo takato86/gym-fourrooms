@@ -111,13 +111,15 @@ wwwwwwwwwwwww
         state = self.tostate[self.currentcell]
         done = False
         reward = 0.0
+        info = {"is_success": False}
         if state == self.goal:
             done = True
             reward = 1.0
+            info["is_success"] = True
         if self.n_steps >= 1000:
             done = True
             reward = 0.0
-        return state, reward, done, None
+        return state, reward, done, info
 
     def draw_square(self, start_x, start_y, length_x, length_y, color):
         color_dict = {
@@ -237,13 +239,15 @@ class ShapingRooms(Rooms):
         state = self.tostate[self.currentcell]
         done = False
         reward = self.shaping_reward.perform(prev_state, state)
+        info = {"is_success": False}
         if state == self.goal:
             done = True
             reward = 1.0
+            info["is_success"] = True
         if self.n_steps >= 1000:
             done = True
             reward = 0.0
-        return state, reward, done, None
+        return state, reward, done, info
 
 
 class ConstRooms(Rooms):
@@ -258,13 +262,15 @@ class ConstRooms(Rooms):
         state = self.tostate[self.currentcell]
         done = False
         reward = 0.0
+        info = {"is_success": False}
         if state == self.goal:
             done = True
             reward = 1.0
+            info["is_success"] = True
         if self.n_steps >= 1000:
             done = True
             reward = 0.0
-        return state, reward, done, None
+        return state, reward, done, info
 
 
 class GoalsRooms(Rooms):
@@ -285,9 +291,11 @@ class GoalsRooms(Rooms):
         state = self.tostate[self.currentcell]
         done = False
         reward = 0.0
+        info = {"is_success": False}
         if state == self.goal:
             done = True
             reward = 1.0
+            info["is_success"] = True
         if self.n_steps >= 1000:
             done = True
             reward = 0.0
