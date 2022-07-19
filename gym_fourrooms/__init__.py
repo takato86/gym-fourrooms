@@ -104,6 +104,13 @@ register(
 )
 
 register(
+    id='ConstStepFourrooms-v0',
+    entry_point='gym_fourrooms.envs:ConstStepFourrooms',
+    max_episode_steps=20000,
+    reward_threshold=1,
+)
+
+register(
     id='ConstLargeFourrooms-v0',
     entry_point='gym_fourrooms.envs:ConstLargeFourrooms',
     max_episode_steps=20000,

@@ -90,6 +90,19 @@ wwwwwwwwwwwww
         return layout
 
 
+class ConstStepFourrooms(ConstFourrooms):
+    def __init__(self):
+        super().__init__()
+
+    def step(self, act):
+        next_state, reward, done, info = super().step(act)
+        if not done:
+            reward = -1
+        else:
+            reward = 0
+        return next_state, reward, done, info
+
+
 class DiagonalFourrooms(ConstFourrooms):
     def __init__(self):
         super().__init__()
