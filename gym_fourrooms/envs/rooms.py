@@ -28,6 +28,7 @@ class Rooms(gym.Env):
         self.directions = [
             np.array((1, 0)), np.array((0, 1)),
             np.array((-1, 0)), np.array((0, -1))]
+
         self.rng = np.random.RandomState(1234)
 
         self.tostate = {}
@@ -46,6 +47,9 @@ class Rooms(gym.Env):
         self.n_steps = 0
         self.curr_option = None
         self.goal = None
+
+    def seed(self, seed):
+        self.rng = np.random.RandomState(seed)
 
     def set_option(self, option):
         self.curr_option = option
