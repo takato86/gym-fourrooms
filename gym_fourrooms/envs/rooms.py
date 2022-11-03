@@ -167,16 +167,21 @@ wwwwwwwwwwwww
         # current_position_y = self.currentcell[0] * length_y
 
         goal_state = self.to_cell(self.goal)
+
         if self.viewer is None:
             self.viewer = rendering.Viewer(screen_width, screen_height)
         self.viewer.geoms = []
+        
         for i in range(self.occupancy.shape[0]):
+        
             for j in range(self.occupancy.shape[1]):
+        
                 if self.occupancy[i][j] == 1:
                     color = 'black'
                 elif goal_state[0] == i and goal_state[1] == j:
                     color = 'red'
                 elif self.currentcell[0] == i and self.currentcell[1] == j:
+        
                     if self.curr_option is not None:
                         color = self.curr_option
                     else:
@@ -187,6 +192,7 @@ wwwwwwwwwwwww
                 else:
                     position_x += length_x
                     continue
+                
                 self.draw_square(
                     position_x, position_y, length_x, length_y, color
                 )

@@ -159,9 +159,18 @@ class SubGoalFourrooms(Fourrooms):
             subgoals {[type]} -- {(x, y): value}
         """
         super(SubGoalFourrooms, self).__init__()
+        self.init_states = [0]
+        self.goal = self.tostate[(11, 11)]
         self.subgoals = {}
 
-    def set_subgoals(self, subgoals):
+    def reset(self, subgoals):
+        self.subgoals = {}
+        if self.viewer is not None:
+            self.viewer = None
+        self.__set_subgoals(subgoals)
+        return super().reset()
+
+    def __set_subgoals(self, subgoals):
         for k, v in subgoals.items():
             if isinstance(k, int):
                 self.subgoals[k] = v
@@ -176,6 +185,22 @@ class SubGoalFourrooms(Fourrooms):
         reward -= 1
         return next_state, reward, done, info
 
+    def render(self, mode='Human', close=False):
+        super().render(mode, close)
+        length_x = 30
+        length_y = 30
+        screen_height = length_x * self.occupancy.shape[0]
+        # screen_width = length_y * self.occupancy.shape[1]
+        position_x = 0
+        position_y = screen_height - length_y
+
+        for state, _ in self.subgoals.items():
+            y, x = self.to_cell(state)
+            position_x = x * length_x
+            position_y = screen_height - (y + 1) * length_y
+            self.draw_square(position_x, position_y, length_x, length_y, "green")
+        
+        return self.viewer.render(return_rgb_array=mode == 'rgb_array')
 
 class LargeFourrooms(SubGoalFourrooms):
     def __init__(self):
