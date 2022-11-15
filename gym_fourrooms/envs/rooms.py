@@ -129,9 +129,9 @@ wwwwwwwwwwwww
         color_dict = {
             'white': [1, 1, 1],
             'black': [0, 0, 0],
-            'red': [1, 0, 0],
-            'blue': [0, 0, 1],
-            'green': [0, 1, 0]
+            'red': [1, 0.29411765, 0],
+            'blue': [0, 0.35294118, 1],
+            'green': [0.01176471, 0.68627451, 0.47843137]
         }
         cell = rendering.make_polygon(
             [(start_x, start_y), (start_x+length_x, start_y),
